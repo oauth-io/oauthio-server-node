@@ -1,0 +1,22 @@
+{
+  "name": "oauthio-provider",
+  "version": "0.0.0",
+  "description": "OAuth that just works - for providers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OAuth.io",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "q": "^1.1.2",
+    "qs": "^2.3.3",
+    "request": "^2.48.0"
+  }
+}
