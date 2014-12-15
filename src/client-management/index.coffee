@@ -6,6 +6,7 @@ module.exports = (env) ->
 		getAll: (userId) ->
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/all/' + userId,
 				headers: {
 					authorization_p: env.auth_header
@@ -29,6 +30,7 @@ module.exports = (env) ->
 		get: (client_id) ->
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/' + client_id,
 				headers: {
 					authorization_p: env.auth_header
@@ -41,6 +43,7 @@ module.exports = (env) ->
 						body = JSON.parse body
 					catch e
 						defer.reject e
+				console.log err, resp.statusCode, body
 				if resp.statusCode == 200 and not err?
 					defer.resolve body.data
 				else
@@ -55,6 +58,7 @@ module.exports = (env) ->
 		create: (client) ->
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients',
 				method: 'POST',
 				headers: {
@@ -87,6 +91,7 @@ module.exports = (env) ->
 			console.log client
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients',
 				method: 'PUT',
 				headers: {
@@ -111,6 +116,7 @@ module.exports = (env) ->
 		delete: (client_id) ->
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/' + client_id,
 				method: 'DELETE',
 				headers: {
@@ -134,6 +140,7 @@ module.exports = (env) ->
 		regenerateKeys: (client_id) ->
 			defer = Q.defer()
 			options = {
+				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/keygen/' + client_id,
 				method: 'POST',
 				headers: {

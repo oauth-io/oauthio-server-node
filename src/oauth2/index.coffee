@@ -26,11 +26,13 @@ module.exports = (env) ->
 				env.log 'Called authorize'
 				scope = req.query.scope.split(' ')
 				request {
+					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/clients/' + req.query.client_id
 					headers: {
 						authorization_p: env.auth_header
 					}
 				}, (err, resp, body) ->
+					console.log 'CAUGHT', err, body
 					try
 						body = JSON.parse body
 						client = body.data
@@ -51,6 +53,7 @@ module.exports = (env) ->
 				if not req.query.userId?
 					return res.status(403).send('Unauthorized request')
 				request {
+					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/authorization?' + qs.stringify(req.query),
 					json: req.body
 					method: 'POST'
@@ -73,6 +76,7 @@ module.exports = (env) ->
 			(req, res, next) ->
 				env.log 'Called token'
 				options = {
+					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/token'
 					json: req.body
 					method: 'POST'
@@ -101,6 +105,7 @@ module.exports = (env) ->
 				env.log 'In oauth2 middleware'
 				access_token = req.query.access_token || req.body.access_token || req.headers.authorization?.split(' ')?[1]
 				request {
+					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/check?access_token=' + access_token,
 					headers:{
 						authorization_p: env.auth_header
