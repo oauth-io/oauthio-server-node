@@ -24,7 +24,7 @@ module.exports = (env) ->
 			# here we should have req.template and req.data
 			(req, res, next) ->
 				env.log 'Called authorize'
-				scope = req.query.scope.split(' ')
+				scope = req.query.scope?.split(' ') || []
 				request {
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/clients/' + req.query.client_id
