@@ -9,7 +9,7 @@ module.exports = (env) ->
 				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/all/' + userId,
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				}
 			}
 			request options, (err, resp, body) ->
@@ -33,7 +33,7 @@ module.exports = (env) ->
 				rejectUnauthorized: not env.config.debug
 				url: env.config.oauthd_url + '/oauth2/clients/' + client_id,
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				}
 			}
 			request options, (err, resp, body) ->
@@ -62,7 +62,7 @@ module.exports = (env) ->
 				url: env.config.oauthd_url + '/oauth2/clients',
 				method: 'POST',
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				},
 				json: client
 			}
@@ -95,7 +95,7 @@ module.exports = (env) ->
 				url: env.config.oauthd_url + '/oauth2/clients',
 				method: 'PUT',
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				},
 				json: client
 			}
@@ -120,7 +120,7 @@ module.exports = (env) ->
 				url: env.config.oauthd_url + '/oauth2/clients/' + client_id,
 				method: 'DELETE',
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				}
 			}
 			request options, (err, resp, body) ->
@@ -144,7 +144,7 @@ module.exports = (env) ->
 				url: env.config.oauthd_url + '/oauth2/clients/keygen/' + client_id,
 				method: 'POST',
 				headers: {
-					authorization_p: env.auth_header
+					authorizationp: env.auth_header
 				}
 			}
 			request options, (err, resp, body) ->

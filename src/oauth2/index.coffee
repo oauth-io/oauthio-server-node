@@ -29,7 +29,7 @@ module.exports = (env) ->
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/clients/' + req.query.client_id
 					headers: {
-						authorization_p: env.auth_header
+						authorizationp: env.auth_header
 					}
 				}, (err, resp, body) ->
 					console.log 'CAUGHT', err, body
@@ -58,7 +58,7 @@ module.exports = (env) ->
 					json: req.body
 					method: 'POST'
 					headers:{
-						authorization_p: env.auth_header
+						authorizationp: env.auth_header
 					}
 				}, (err, resp, body) ->
 					if err
@@ -74,6 +74,7 @@ module.exports = (env) ->
 		# Endpoint to be called for access token retrieval (with code) or refresh (with refresh token)
 		token: () ->
 			(req, res, next) ->
+				start_date = new Date().getTime()
 				env.log 'Called token'
 				options = {
 					rejectUnauthorized: not env.config.debug
@@ -81,10 +82,12 @@ module.exports = (env) ->
 					json: req.body
 					method: 'POST'
 					headers:{
-						authorization_p: env.auth_header
+						authorizationp: env.auth_header
 					}
 				}
 				request options, (err, resp, body) ->
+					date = new Date().getTime()
+					console.log 'TIMEME', date - start_date
 					res.status(200)
 					res.send(body)
 
@@ -102,13 +105,12 @@ module.exports = (env) ->
 				options[k] = v if not options[k]?
 
 			(req, res, next) ->
-				env.log 'In oauth2 middleware'
 				access_token = req.query.access_token || req.body.access_token || req.headers.authorization?.split(' ')?[1]
 				request {
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/check?access_token=' + access_token,
 					headers:{
-						authorization_p: env.auth_header
+						authorizationp: env.auth_header
 					}
 				}, (err, resp, body) ->
 					try
