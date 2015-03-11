@@ -1,1 +1,3 @@
 src
+*.sublime*
+Gruntfile.js
