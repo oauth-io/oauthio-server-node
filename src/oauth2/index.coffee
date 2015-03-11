@@ -32,7 +32,6 @@ module.exports = (env) ->
 						authorizationp: env.auth_header
 					}
 				}, (err, resp, body) ->
-					console.log 'CAUGHT', err, body
 					try
 						body = JSON.parse body
 						client = body.data
@@ -87,7 +86,6 @@ module.exports = (env) ->
 				}
 				request options, (err, resp, body) ->
 					date = new Date().getTime()
-					console.log 'TIMEME', date - start_date
 					res.status(200)
 					res.send(body)
 

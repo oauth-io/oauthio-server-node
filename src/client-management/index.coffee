@@ -43,7 +43,6 @@ module.exports = (env) ->
 						body = JSON.parse body
 					catch e
 						defer.reject e
-				console.log err, resp.statusCode, body
 				if resp.statusCode == 200 and not err?
 					defer.resolve body.data
 				else
@@ -88,7 +87,6 @@ module.exports = (env) ->
 		# client.client_id
 		# client.client_secret
 		update: (client) ->
-			console.log client
 			defer = Q.defer()
 			options = {
 				rejectUnauthorized: not env.config.debug
