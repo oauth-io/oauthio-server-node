@@ -84,7 +84,7 @@ Then you'll need to create two endpoints for the `/authorize` URL. You can put a
 
 **GET /authorize**
 
-First, you need to create an endpoint for the `GET` method, which will redirect the user to a login page if he is not logged in, and show the decision form if he is.
+First, you need to create an endpoint for the `GET` method, which will redirect the user to a login page if he is not logged in, and then, show the decision form.
 
 If the user is not logged in, you need to redirect him to the log in page **with the same GET parameters**, and the location of the authorization endpoint. Once the user is logged in, he should be redirected once more to the authorization endpoint with the original get parameters.
 
