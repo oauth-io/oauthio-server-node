@@ -54,7 +54,8 @@ module.exports = (env) ->
 				request {
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/authorization?' + qs.stringify(req.query),
-					json: req.body
+					body: req.body
+					json: true
 					method: 'POST'
 					headers:{
 						authorizationp: env.auth_header
