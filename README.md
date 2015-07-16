@@ -60,9 +60,9 @@ Implementing all this, be it from the client's point of view, or from the provid
 Once you have created a provider on OAuth.io or oauthd, and installed the SDK via npm, you need to initialize the SDK with your **provider_id** and **provider_secret**:
 
 ```javascript
-OAuthProviding = require('oauthio-oauth-providing');
+OAuthProvider = require('oauthio-server');
 
-OAuthProviding.initialize('your_provider_id', 'your_provider_secret');
+OAuthProvider.initialize('your_provider_id', 'your_provider_secret');
 ```
 
 Once that's done, you will be able to create the endpoints for the OAuth 2.0 dance, and use the client management methods to create and edit your client apps from your developer portal.
