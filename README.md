@@ -27,7 +27,7 @@ Installation
 To install the SDK, just run the following command in your API server application:
 
 ```sh
-$ node install oauthio-provider
+$ node install oauthio-server
 ```
 
 
@@ -60,9 +60,9 @@ Implementing all this, be it from the client's point of view, or from the provid
 Once you have created a provider on OAuth.io or oauthd, and installed the SDK via npm, you need to initialize the SDK with your **provider_id** and **provider_secret**:
 
 ```javascript
-OAuthProviding = require('oauthio-oauth-providing');
+OAuthProvider = require('oauthio-server');
 
-OAuthProviding.initialize('your_provider_id', 'your_provider_secret');
+OAuthProvider.initialize('your_provider_id', 'your_provider_secret');
 ```
 
 Once that's done, you will be able to create the endpoints for the OAuth 2.0 dance, and use the client management methods to create and edit your client apps from your developer portal.
@@ -74,8 +74,9 @@ Once that's done, you will be able to create the endpoints for the OAuth 2.0 dan
 The first thing you need to do is to provide the SDK a way to recognize your currently logged in user from a connect request object, by overriding the `OAuth2.getUserId` method. For example, if the user id is stored in the session , you can do something like this:
 
 ```javascript
-OAuthProvider.OAuth2.getUserId = (req) ->
+OAuthProvider.OAuth2.getUserId = (req) => {
     return req.session.user.id
+}
 ```
 
 #### Authorize
