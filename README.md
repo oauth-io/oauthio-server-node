@@ -8,6 +8,10 @@ OAuth 2.0 allows you to add an authentication layer to your API, according the t
 Pre-requisite
 -------------
 
+> *Express Framework is required*
+>
+> This SDK has been made to work on top of Express. Other frameworks are not supported during the BETA.
+
 **Create a provider on OAuth.io/oauthd**
 
 First, you need to create a provider on [OAuth.io](https://oauth.io), or in your [oauthd instance](https://github.com/oauth-io/oauthd).
