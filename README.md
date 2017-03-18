@@ -156,7 +156,7 @@ You can add custom values to the template as well.
 To provider the endpoint with the template and custom data, you need to add a middleware, and override the `req.template` field with the template path, and the `req.data` field with an object containing values that will be usable in the template. Finally, you need to pass the result of `OAuthProvider.OAuth2.getauthorize()`, which finishes the endpoint response:
 
 ```javascript
-app.get('/authorization', isLoggedIn, funtion (req, res, next) {
+app.get('/authorization', isLoggedIn, function (req, res, next) {
     req.template = Path.join(__dirname + '/path/to/decision.html');
     req.data = {
         user: req.session.user
