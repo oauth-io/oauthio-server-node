@@ -34,7 +34,7 @@ $ node install oauthio-provider
 OAuth 2.0 with oauthd
 ---------------------
 
-###Introduction
+### Introduction
 
 The OAuth 2.0 framework allows you to secure your API endpoints with an authentication layer. This lets apps call the endpoints on behalf of your users, after having asked for a scope of permissions.
 
@@ -55,7 +55,7 @@ Implementing all this, be it from the client's point of view, or from the provid
 
 > For the client part, check out OAuth.io and oauthd's client services, which will enable you to integrate over 100 APIs in your application in a matter of minutes.
 
-###Initializing the SDK
+### Initializing the SDK
 
 Once you have created a provider on OAuth.io or oauthd, and installed the SDK via npm, you need to initialize the SDK with your **provider_id** and **provider_secret**:
 
@@ -67,9 +67,9 @@ OAuthProviding.initialize('your_provider_id', 'your_provider_secret');
 
 Once that's done, you will be able to create the endpoints for the OAuth 2.0 dance, and use the client management methods to create and edit your client apps from your developer portal.
 
-###OAuth 2.0 dance endpoints
+### OAuth 2.0 dance endpoints
 
-####Recognizing the user
+#### Recognizing the user
 
 The first thing you need to do is to provide the SDK a way to recognize your currently logged in user from a connect request object, by overriding the `OAuth2.getUserId` method. For example, if the user id is stored in the session , you can do something like this:
 
@@ -78,7 +78,7 @@ OAuthProvider.OAuth2.getUserId = (req) ->
     return req.session.user.id
 ```
 
-####Authorize
+#### Authorize
 
 Then you'll need to create two endpoints for the `/authorize` URL. You can put another URL if you want, but `/authorize` is recommended by the OAuth 2.0 RFC.
 
@@ -211,7 +211,7 @@ The client can then call the `/token` endpoint with the code, the client id and 
 
 And that's it. Now you can secure your API endpoints, filtering the calls thanks to the scope and user id associated with the access token.
 
-###Securing your API endpoints
+### Securing your API endpoints
 
 Here's how you can secure your API endpoints with this SDK's middleware, `OAuthProvider.OAuth2.check()`:
 
@@ -252,7 +252,7 @@ app.get('/someendpoint', OAuthProvider.OAuth2.check({
 
 ```
 
-###Managing your clients
+### Managing your clients
 
 The SDK gives you methods that simplify the access to the Client Management API that goes along the OAuth 2.0 server.
 
@@ -260,7 +260,7 @@ This way, you can create your own developer portal, so that developers can regis
 
 All the client methods are contained in `OAuthProvider.clients`.
 
-####Creating a client
+#### Creating a client
 
 To create a client, you need to call the `OAuthProvider.clients.create()` method, with a client's information.
 
@@ -289,7 +289,7 @@ OAuthProvider.clients.create({
 ```
 
 
-####Retrieving all clients
+#### Retrieving all clients
 
 To retrieve all your clients, you need to call the `OAuthProvider.clients.getAll()` method.
 
@@ -306,7 +306,7 @@ OAuthProvider.clients.getAll()
 ```
 
 
-####Retrieving a specific client
+#### Retrieving a specific client
 
 To retrieve a specific client, you need to call the `OAuthProvider.clients.get()` method with the client id of the requested client.
 
@@ -325,7 +325,7 @@ OAuthProvider.clients.get(client_id)
 ```
 
 
-####Updating a client
+#### Updating a client
 
 To update a client, you need to call the `OAuthProvider.clients.update()` with the client's updated data.
 
@@ -351,7 +351,7 @@ OAuthProvider.clients.update(client)
     });
 ```
 
-####Resetting a client's keys
+#### Resetting a client's keys
 
 To reset a client's keys, you need to call the `OAuthProvider.clients.regenerateKeys()` method with the client's `client_id`.
 
@@ -367,7 +367,7 @@ OAuthProvider.clients.regenerateKeys(client_id)
     });
 ```
 
-####Deleting a client
+#### Deleting a client
 
 To delete a client, you need to call the `OAuthProvider.clients.delete()` method with the client's `client_id`.
 
