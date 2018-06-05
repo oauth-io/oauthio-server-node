@@ -24,6 +24,8 @@ module.exports = (env) ->
 			# here we should have req.template and req.data
 			(req, res, next) ->
 				env.log 'Called authorize'
+				env.log 'getauthorize - env.auth_header', env.auth_header
+				env.log 'getauthorize - url', env.config.oauthd_url + '/oauth2/clients/' + req.query.client_id
 				scope = req.query.scope?.split(' ') || []
 				request {
 					rejectUnauthorized: not env.config.debug
@@ -33,12 +35,15 @@ module.exports = (env) ->
 					}
 				}, (err, resp, body) ->
 					try
+						if resp
+							env.log 'getauthorize - resp.headers:', resp.headers
+						env.log 'getauthorize - body:', body
 						body = JSON.parse body
 						client = body.data
 						req.data.client = client
 						req.data.scope = scope
 						fs.readFile req.template, {encoding:  'UTF-8'}, (err, str) -> #reads the tpl given by the provider
-							env.log str
+							env.log 'getauthorize - str:', str
 							res.status(200)
 							res.send ejs.render(str, req.data) # fills the template with the user's data + the client
 					catch e
@@ -49,8 +54,12 @@ module.exports = (env) ->
 		postauthorize: () ->
 			(req, res, next) ->
 				req.query.userId = oauth2.getUserId(req) #req.session.user?.id
+				env.log 'postauthorize - req.query.userId:', req.query.userId
 				if not req.query.userId?
 					return res.status(403).send('Unauthorized request')
+				env.log 'postauthorize - url:', env.config.oauthd_url + '/oauth2/authorization?' + qs.stringify(req.query)
+				env.log 'postauthorize - !env.config.debug:', !env.config.debug
+				env.log 'postauthorize - env.auth_header:', env.auth_header
 				request {
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/authorization?' + qs.stringify(req.query),
@@ -60,11 +69,15 @@ module.exports = (env) ->
 						authorizationp: env.auth_header
 					}
 				}, (err, resp, body) ->
+					env.log 'postauthorize - request callback err:', err
 					if err
-						env.log 'Error while authorizing', err
+						env.log 'postauthorize - Error while authorizing', err
 						res.status(500)
 						res.send('An error occured')
 						return
+					env.log 'postauthorize - body:', body
+					if resp
+						env.log 'postauthorize - resp.headers:', resp.headers
 					res.setHeader 'Location', resp.headers.location
 					res.status(resp.statusCode)
 					res.send(body)
@@ -75,6 +88,9 @@ module.exports = (env) ->
 			(req, res, next) ->
 				start_date = new Date().getTime()
 				env.log 'Called token'
+				env.log 'token !env.config.debug:', !env.config.debug
+				env.log 'token url:', env.config.oauthd_url + '/oauth2/token'
+				env.log 'token env.auth_header:', env.auth_header
 				options = {
 					rejectUnauthorized: not env.config.debug
 					url: env.config.oauthd_url + '/oauth2/token'
@@ -82,9 +98,13 @@ module.exports = (env) ->
 					method: 'POST'
 					headers:{
 						authorizationp: env.auth_header
+						// TODO: Fix this to be the oauth.io app id and app key
+						authorization: 'Basic MDY5YmNlNmUxODQxZWVhOWIwODg4MmZhYjIyOGEyNDc6YTI4ODc0NjEyY2Q0ZDllOTUyYzExNjQwMWIyY2EyZmM='
 					}
 				}
 				request options, (err, resp, body) ->
+					env.log 'token - resp:', resp
+					env.log 'token - body:', body
 					date = new Date().getTime()
 					res.status(200)
 					res.send(body)
